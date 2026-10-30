@@ -1,0 +1,9 @@
+# Vendor source material — not ours to redistribute
+source/
+
+# Local-only working notes (personal context, message drafts)
+CONTEXT.md
+*.local.md
+
+# OS / editor noise
+.DS_Store
