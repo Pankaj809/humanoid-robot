@@ -1,9 +1,16 @@
 # Vendor source material — not ours to redistribute
 source/
 
-# Local-only working notes (personal context, message drafts)
+# Local-only working notes (personal context, supervision notes, message drafts)
 CONTEXT.md
 *.local.md
+*.local/
+
+# Lab machine screenshots (internal config, no public value)
+network*.png
+
+# Generated documents are built from the Markdown sources
+# (docs/ is committed deliberately — see README)
 
 # OS / editor noise
 .DS_Store

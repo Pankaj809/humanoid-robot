@@ -1,32 +1,76 @@
-# Robot-Lab-Nankai
+# Humanoid robot research — Master's thesis workspace
 
-Working notes for humanoid robot software work in a Nankai University robotics lab, built
-around a Unitree humanoid and the `unitree_sdk2` stack. Source material from the lab is in
-Chinese; everything produced here is in English.
+Research workspace for a Master's thesis on **Vision-Language-Action (VLA) policies on a Unitree
+G1 humanoid**, in a robotics lab at Nankai University. Lab source material is in Chinese;
+everything produced here is in English.
+
+---
+
+## What is happening
+
+The project started from a Chinese sales brochure and an assumption that the work would be
+control and perception engineering on a Unitree **R1**. Both turned out to be wrong:
+
+- The lab's robot is a **G1 EDU**, not an R1. The brochure describes a *workbench* from a
+  different product line and names G1 zero times.
+- Day-to-day supervision covers the **VLA / decision-making layer** only. Control algorithms and
+  simulation cannot be supported in-group.
+
+So the direction moved from "learn the motion stack" to a question that is both supervisable and
+runnable on the hardware that is actually confirmed present:
+
+> **A VLA policy that is accurate offline is not necessarily usable on a robot, because the robot
+> keeps moving while the policy thinks. Where does the latency budget go, and what does spending
+> it differently cost in task success?**
+
+Full reasoning, including the two directions that were considered and deferred, is in
+[`01-thesis-proposal.md`](01-thesis-proposal.md).
+
+## What needs to be done
+
+**Blocked on the lab** — five questions, best sent as one numbered message. The most important is
+*which VLA stack the group actually uses*, because the thesis should target their stack.
+
+**Not blocked — start now.** Three pieces of work need no hardware, no permissions and no
+answers: build the latency timestamping harness, write the task-suite specification, and draft
+the related-work section. Together they de-risk everything that follows.
+
+Both lists, with the reasoning and the order to do them in, are in
+[`02-open-questions.md`](02-open-questions.md).
+
+## Documents
 
 | File | What it is |
 |---|---|
-| [`01-spec-translation.md`](01-spec-translation.md) | English rendering of the Unitree bench brochure |
-| [`02-onboarding-plan.md`](02-onboarding-plan.md) | Stepwise plan — motions → perception → manipulation |
-| [`03-equipment-audit.md`](03-equipment-audit.md) | What the lab actually has. **Unfilled**, pending confirmation |
-| [`04-sport-services-api.md`](04-sport-services-api.md) | English reference for the motion API, covering **both** R1 and G1, read from SDK source |
+| [`00-research-context.md`](00-research-context.md) | Established facts — hardware, supervision, constraints. Every claim labelled `[CONFIRMED]` / `[VENDOR]` / `[UNVERIFIED]` |
+| [`01-thesis-proposal.md`](01-thesis-proposal.md) | The proposed thesis: question, why this and not the alternatives, method, risks, PhD arc |
+| [`02-open-questions.md`](02-open-questions.md) | Decision gates and the work that can start immediately |
+| [`reference/bench-brochure-translation.md`](reference/bench-brochure-translation.md) | Full English rendering of the bench brochure. Background only |
+| [`reference/sport-services-api.md`](reference/sport-services-api.md) | Motion API reference (`sport` service, `LocoClient`), read from SDK source |
+| [`docs/`](docs/) | Generated PDF and DOCX of the proposal, for sharing with the lab |
 
-## Current state
+## Generating the shareable documents
 
-Documentation only — no code yet.
+The PDF and DOCX in `docs/` are built from the Markdown — edit the Markdown, never the generated
+files:
 
-**Blocked on one question:** the brochure describes an **R1**-based bench (model SXT-LK-R1-1)
-but the documentation link supplied by the lab points at **G1** docs. This matters more than
-it first appeared — the R1 motion API registers **4** api_ids where G1 registers **15**, so
-`BalanceStand`, `HighStand`, `LowStand`, `SetSpeedMode` and most getters do not exist on R1
-at all (details in [`04-sport-services-api.md`](04-sport-services-api.md) §2). On top of that,
-only **R1-EDU** supports secondary development; R1 Air and R1 Basic ship locked with no SDK or
-ROS 2 access. Model and variant need confirming before any model-specific code.
+```sh
+./build-docs.sh
+```
 
-See [`03-equipment-audit.md`](03-equipment-audit.md) for the full list of open questions.
+Requires `pandoc`; the PDF step additionally requires a LaTeX engine (`xelatex`).
+
+## Conventions
+
+- **Claims are labelled.** Nothing moves from `[UNVERIFIED]` to `[CONFIRMED]` without a source or
+  a direct statement from the lab. Literature numbers are not cited until checked against the
+  papers.
+- **Hardware is never assumed.** No plan depends on hardware not confirmed present. This is why
+  the task suite is tiered.
+- **Safety.** The humanoid is never operated alone — two people present, e-stop within reach.
 
 ## A note on sources
 
-The vendor brochure this translation is based on is Unitree Robotics material and is **not
-redistributed here** — it is kept locally and excluded from version control. `01-spec-translation.md`
-is an independent English summary written for internal lab use.
+The vendor brochure underlying the translation is Unitree Robotics material and is **not
+redistributed here**; it is kept locally and excluded from version control. Personal notes,
+supervision notes and lab machine configuration are likewise local-only.
